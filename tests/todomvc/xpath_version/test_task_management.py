@@ -15,7 +15,7 @@ def test_complete_task():
 
     s('//*[@id="todo-list"]//li[.//text()="b"]//*[' + x.has_css_class('toggle') + ']')\
         .click()
-    s('//*[@id="todo-list"]//li[' + x.has_css_class('completed') + ']')\
-        .should(have.exact_text('b'))
+    ss('//*[@id="todo-list"]//li[' + x.has_css_class('completed') + ']')\
+        .should(have.exact_texts('b'))
     ss('//*[@id="todo-list"]//li[' + x.has_no_css_class('completed') + ']')\
         .should(have.exact_texts('a', 'c'))
