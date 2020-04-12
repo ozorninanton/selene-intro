@@ -2,7 +2,8 @@ from selene import have
 from selene.support.shared import browser
 from selene.support.shared.jquery_style import s, ss
 
-from selene_intro.dsl import x, its
+from selene_intro.common.xpath import x
+from selene_intro.common.xpath.dsl import its
 
 
 def test_complete_task():
@@ -15,7 +16,7 @@ def test_complete_task():
 
     s(x.all().by(its.id('todo-list'))
        .child('li').by(its.descendant_with_text('b'))
-       .descendant().by(its.css_class('toggle'))
+       .child().by(its.css_class('toggle'))
        .x).click()
     ss(x.all().by(its.id('todo-list'))
        .child('li').by(its.css_class('completed'))
