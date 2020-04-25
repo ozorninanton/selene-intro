@@ -1,19 +1,6 @@
-def all():
-    return Builder()
+def has_css_class(value):
+    return f'contains(concat(" ", normalize-space(@class), " "), " {value} ")'
 
 
-class Builder:
-    def __init__(self):
-        self.parts = '//'
-
-    def by(self, predicate):
-        self.parts = self.parts + predicate
-        return self
-
-    def child(self, element=None):
-        self.parts = self.parts + f'//{element if element else "*"}'
-        return self
-
-    @property
-    def x(self):
-        return self.parts
+def has_no_css_class(value):
+    return f'not({has_css_class(value)})'

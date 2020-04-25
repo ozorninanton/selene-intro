@@ -2,8 +2,7 @@ from selene import have
 from selene.support.shared import browser
 from selene.support.shared.jquery_style import s, ss
 
-from selene_intro.common.xpath import x
-from selene_intro.common.xpath.dsl import its
+from selene_intro.common.xpath.dsl import its, x
 
 
 def test_complete_task():
@@ -15,12 +14,12 @@ def test_complete_task():
     ss(x.all().by(its.id('todo-list')).child('li').x).should(have.exact_texts('a', 'b', 'c'))
 
     s(x.all().by(its.id('todo-list'))
-       .child('li').by(its.descendant_with_text('b'))
-       .child().by(its.css_class('toggle'))
-       .x).click()
+      .child('li').by(its.descendant_with_text('b'))
+      .descendant().by(its.css_class('toggle'))
+      .x).click()
     ss(x.all().by(its.id('todo-list'))
        .child('li').by(its.css_class('completed'))
        .x).should(have.exact_texts('b'))
     ss(x.all().by(its.id('todo-list'))
-       .child('li').by(its.no_css_class('completed'))
+       .child('li').by_not(its.css_class('completed'))
        .x).should(have.exact_texts('a', 'c'))
