@@ -10,20 +10,16 @@ class Builder:
         self.selector = selector
 
     def by(self, predicate):
-        self.selector = self.selector + f'[{predicate}]'
-        return self
+        return Builder(self.selector + f'[{predicate}]')
 
     def by_not(self, predicate):
-        self.selector = self.selector + f'[{not_(predicate)}]'
-        return self
+        return Builder(self.selector + f'[{not_(predicate)}]')
 
     def child(self, element='*'):
-        self.selector = self.selector + f'/{element}'
-        return self
+        return Builder(self.selector + f'/{element}')
 
     def descendant(self, element='*'):
-        self.selector = self.selector + f'//{element}'
-        return self
+        return Builder(self.selector + f'//{element}')
 
     @property
     def x(self):
