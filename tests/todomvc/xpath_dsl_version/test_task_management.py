@@ -6,7 +6,13 @@ from selene_intro.common.xpath.dsl import its, x
 
 
 def test_complete_task():
-    browser.open('http://todomvc.com/examples/emberjs/')
+    browser.open('https://todomvc4tasj.herokuapp.com')
+    browser.should(
+        have.script_returned(
+            True,
+            'return Object.keys(require.s.contexts._.defined).length === 39',
+        )
+    )
 
     s(x.all().by(its.id('new-todo')).x).type('a').press_enter()
     s(x.all().by(its.id('new-todo')).x).type('b').press_enter()
@@ -21,5 +27,5 @@ def test_complete_task():
        .child('li').by(its.css_class('completed'))
        .x).should(have.exact_texts('b'))
     ss(x.all().by(its.id('todo-list'))
-       .child('li').by_not(its.css_class('completed'))
+       .child('li').by(its.not_.css_class('completed'))
        .x).should(have.exact_texts('a', 'c'))

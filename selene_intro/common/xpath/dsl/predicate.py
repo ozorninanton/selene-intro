@@ -10,5 +10,18 @@ def css_class(value):
     return f'contains(concat(" ", normalize-space(@class), " "), " {value} ")'
 
 
-def not_(predicate):
-    return f'not({predicate})'
+class __Not:
+    @classmethod
+    def id(cls, value):
+        return f'not({id(value)})'
+
+    @classmethod
+    def descendant_with_text(cls, value):
+        return f'not({descendant_with_text(value)})'
+
+    @classmethod
+    def css_class(cls, value):
+        return f'not({css_class(value)})'
+
+
+not_ = __Not
