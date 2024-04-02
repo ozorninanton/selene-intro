@@ -1,27 +1,24 @@
-def id(value):
-    return f'@id="{value}"'
+class Predicate:
+    def __init__(self, not_=False):
+        self.__not = not_
 
+    def id(self, value):
+        return self.__apply_not_(f'@id="{value}"')
 
-def descendant_with_text(value):
-    return f'.//text()="{value}"'
+    def descendant_with_text(self, value):
+        return self.__apply_not_(f'.//text()="{value}"')
 
+    def css_class(self, value):
+        return self.__apply_not_(
+            f'contains(concat(" ", normalize-space(@class), " "), " {value} ")'
+        )
 
-def css_class(value):
-    return f'contains(concat(" ", normalize-space(@class), " "), " {value} ")'
+    def __apply_not_(self, expression):
+        if self.__not:
+            return f"not({expression})"
+        else:
+            return expression
 
-
-class __Not:
-    @classmethod
-    def id(cls, value):
-        return f'not({id(value)})'
-
-    @classmethod
-    def descendant_with_text(cls, value):
-        return f'not({descendant_with_text(value)})'
-
-    @classmethod
-    def css_class(cls, value):
-        return f'not({css_class(value)})'
-
-
-not_ = __Not
+    @property
+    def not_(self):
+        return Predicate(not_=True)

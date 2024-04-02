@@ -1,4 +1,5 @@
-from selene_intro.common.xpath.dsl import predicate, selector
+from selene_intro.common.xpath.dsl import selector
+from selene_intro.common.xpath.dsl.predicate import Predicate
 
-its = predicate
+its = Predicate()
 x = selector
