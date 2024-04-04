@@ -1,5 +1,5 @@
 from selene_intro.common.xpath.dsl import selector
-from selene_intro.common.xpath.dsl.predicate import Predicate
+from selene_intro.common.xpath.dsl.predicate import PredicateProxy
 
-its = Predicate()
+its = PredicateProxy()
 x = selector
