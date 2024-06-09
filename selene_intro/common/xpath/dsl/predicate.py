@@ -1,35 +1,33 @@
 class Predicate:
-    def __init__(self, condition=None, not_=False):
-        self.__condition = condition
-        self.__not = not_
+    def __init__(self, condition=None, inverted=False):
+        self._condition = condition
+        self._inverted = inverted
 
     def __str__(self):
-        condition = f'not({self.__condition})' if self.__not else self.__condition
-        self.__condition, self.__not = None, False
-        return condition
+        return f'not({self._condition})' if self._inverted else self._condition
 
     def id(self, value):
-        return Predicate(f'@id="{value}"', self.__not)
+        return Predicate(f'@id="{value}"', self._inverted)
 
     def descendant_with_text(self, value):
-        return Predicate(f'.//text()="{value}"', self.__not)
+        return Predicate(f'.//text()="{value}"', self._inverted)
 
     def css_class(self, value):
         return Predicate(
             f'contains(concat(" ", normalize-space(@class), " "), " {value} ")',
-            self.__not
+            self._inverted
         )
 
-    def and_(self, predicate):
-        if self.__condition is None:
-            raise Exception('cannot be called while __condition is None')
-        return Predicate(f'{self.__condition} and {predicate}')
+    def and_(self, other):
+        if self._condition is None:
+            raise Exception('cannot be called without providing condition')
+        return Predicate(f'{self._condition} and {other}')
 
-    def or_(self, predicate):
-        if self.__condition is None:
-            raise Exception('cannot be called while __condition is None')
-        return Predicate(f'{self.__condition} or {predicate}')
+    def or_(self, other):
+        if self._condition is None:
+            raise Exception('cannot be called without providing condition')
+        return Predicate(f'{self._condition} or {other}')
 
     @property
     def not_(self):
-        return Predicate(not_=True)
+        return Predicate(inverted=not self._inverted)
